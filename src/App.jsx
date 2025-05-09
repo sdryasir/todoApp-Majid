@@ -1,40 +1,45 @@
 import { useState } from "react"
 
 
+
 function App() {
 
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [titleError, setTitleError] = useState('');
-  const [descriptionError, setDescriptionError] = useState('');
+  const [todo, setTodo] = useState({
+    title:'',
+    description:''
+  });
+
+  const [errors, setErrors] = useState({
+    title:'',
+    description:''
+  });
+
   const [todos, setTodos] = useState([]);
 
-  const handleTitle = (e)=>{
-    setTitle(e.target.value);
-  }
-  const handleDesc = (e)=>{
-    setDescription(e.target.value);
+  const handleInput = (e)=>{
+    const {name, value} = e.target;
+    setTodo({...todo, [name]:value})
   }
 
 
   const handleSubmit=(e)=>{
     e.preventDefault();
 
-    if(!title){
-      setTitleError('Please provide the title')
+    if(todo.title == ''){
+      setErrors({...errors, title:`Please provide the title`});
       return;
     }
-    if(!description){
-      setDescriptionError('Please provide the description')
+    if(todo.description == ''){
+      setErrors({...errors, description:`Please provide the description`});
       return;
     }
 
-    const todo = {
-      id:Date.now(),
-      title:title,
-      description:description
+    const newTodo = {
+      ...todo,
+      id:Date.now()
     }
-    setTodos([...todos, todo]);
+    setTodos([...todos, newTodo]);
+   
   }
 
 
@@ -50,22 +55,14 @@ function App() {
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
             <label htmlFor="title" className="form-label">Title</label>
-            <input type="text" className="form-control" id="title" placeholder="Enter Title" onChange={handleTitle}/>
-            <p className="text-danger">{titleError && titleError}</p>
+            <input type="text" name="title" className="form-control" id="title" placeholder="Enter Title" onChange={handleInput}/>
+            <p className="text-danger">{errors.title && errors.title}</p>
           </div>
           <div className="mb-3">
             <label htmlFor="description" className="form-label">Description</label>
-            <input type="text" className="form-control" id="description" placeholder="Enter description" onChange={handleDesc}/>
-            <p className="text-danger">{descriptionError && descriptionError}</p>
+            <input type="text" name="description" className="form-control" id="description" placeholder="Enter description" onChange={handleInput}/>
+            <p className="text-danger">{errors.description && errors.description}</p>
           </div>
-          {/* <div className="mb-3">
-            <div v className="form-check">
-              <input className="form-check-input" type="checkbox" id="gridCheck"/>
-                <label className="form-check-label" htmlFor="gridCheck">
-                  Mark as completed
-                </label>
-            </div>
-          </div> */}
           <button className="btn btn-primary w-100" type="submit">Save Todo</button>
         </form>
 
@@ -84,8 +81,8 @@ function App() {
                 <div className="card-header text-sm fst-italic text-muted d-flex justify-content-between align-items-center">
                 <span>Created At: {convertTimestampToReadableDate(todo.id)}</span>
                 <div>
-                  <span><i class="bi bi-trash btn btn-danger me-2"></i></span>
-                  <span><i class="bi bi-pencil-square btn btn-info"></i></span>
+                  <span><i className="bi bi-trash btn btn-danger me-2"></i></span>
+                  <span><i className="bi bi-pencil-square btn btn-info"></i></span>
                 </div>
               </div>
             </div>
