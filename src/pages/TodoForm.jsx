@@ -1,18 +1,22 @@
 import React from 'react'
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useForm } from 'react-hook-form';
 import TodoListing from './TodoListing'
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup' //alias
 
 
+
+
+//performing side effects in React
+
+
 const schema = Yup.object({
   title:Yup.string().required('Please provide the title').min(4, 'Please enter at least 3 chars').max(15, 'mx 15 chars are allowed').trim(),
-  description:Yup.string().required('Please provide the Description').min(10, 'Please enter at least 10 chars').max(60, 'mx 60 chars are allowed').trim()
+  description:Yup.string().required('Please provide the Description').min(10, 'Please enter at least 10 chars').max(600, 'mx 600 chars are allowed').trim()
 })
 
 function TodoForm() {
-
     const {register, handleSubmit, formState:{errors}} = useForm({
     resolver:yupResolver(schema)
   });
@@ -29,8 +33,13 @@ function TodoForm() {
 
     setTodos([...todos, newTodo]);
 
-    
+    localStorage.setItem("todos", JSON.stringify(todos));
   }
+
+  useEffect(()=>{
+    const todosStr = localStorage.getItem('todos');
+    setTodos(JSON.parse(todosStr) || []);
+  }, [])
 
   return (
       <>

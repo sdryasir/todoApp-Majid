@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router';
 
 function TodoListing({todoList}) {
 
@@ -18,8 +19,9 @@ function TodoListing({todoList}) {
           todoList.map((todo)=>(
             <div key={todo.id} className="card card border-primary mb-3 mt-3">
                 <div className="card-body">
-                  <h5 className="card-title">{todo.title}</h5>
-                  <p className="card-text">{todo.description}</p>
+                  <Link to={`/todo/${todo.id}`}>
+                    <h5 className="card-title">{todo.title}</h5>
+                  </Link>
                 </div>
                 <div className="card-header text-sm fst-italic text-muted d-flex justify-content-between align-items-center">
                 <span>Created At: {convertTimestampToReadableDate(todo.id)}</span>

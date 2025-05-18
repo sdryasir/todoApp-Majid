@@ -19,7 +19,6 @@ function Home() {
  
   return (
     <div className='container'>
-        <Navbar menu_options={menu_options}/>
         <TodoForm/>
     </div>
   )
