@@ -5,6 +5,7 @@ import Modal from '../components/Modal';
 function TodoListing({todoList}) {
 
   const [shoModal, setShowModal] = useState(false)
+  const [localTodo, setLocalTodo] = useState(null)
 
   function convertTimestampToReadableDate(timestamp) {
     const date = new Date(timestamp);
@@ -19,12 +20,13 @@ function TodoListing({todoList}) {
 
     localStorage.setItem('todos', JSON.stringify(newArr));   
 
-    window.location.reload()
+    window.location.reload();
   }
 
 
-  const handlePopup=(val)=>{
-    setShowModal(val)
+  const handlePopup=(state, todo)=>{
+    setShowModal(state);
+    setLocalTodo(todo)
   }
 
   return (
@@ -46,14 +48,14 @@ function TodoListing({todoList}) {
                 <span>Created At: {convertTimestampToReadableDate(todo.id)}</span>
                 <div>
                   <span onClick={()=>handleDelete(todo.id)}><i className="bi bi-trash btn btn-danger me-2"></i></span>
-                  <span onClick={()=>handlePopup(true)}><i className="bi bi-pencil-square btn btn-info"></i></span>
+                  <span onClick={()=>handlePopup(true, todo)}><i className="bi bi-pencil-square btn btn-info"></i></span>
                 </div>
               </div>
             </div>
           ))
         }
         {
-          shoModal ? <Modal handlePopup={handlePopup}/>:null
+          shoModal ? <Modal handlePopup={handlePopup} todo={localTodo}/>:null
         }
       </div>
   )
