@@ -18,7 +18,11 @@ const schema = Yup.object({
 
 function TodoForm() {
     const {register, handleSubmit, formState:{errors}} = useForm({
-    resolver:yupResolver(schema)
+    resolver:yupResolver(schema),
+    defaultValues: {
+      title: '',
+      description: ''
+    }
   });
 
 
@@ -40,6 +44,8 @@ function TodoForm() {
     const todosStr = localStorage.getItem('todos');
     setTodos(JSON.parse(todosStr) || []);
   }, [])
+
+  
 
   return (
       <>
