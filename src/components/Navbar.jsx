@@ -1,7 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router'
+import { CountContext } from '../App';
+import { useContext } from 'react';
 
 function Navbar({menu_options}) {
+
+  const {todoCount} = useContext(CountContext);
 
   return (
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -20,6 +24,11 @@ function Navbar({menu_options}) {
                         ))
                     }
                     
+                </ul>
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <Link class="nav-link" to={'#'}>{todoCount}</Link>
+                    </li>               
                 </ul>
             </div>
         </div>

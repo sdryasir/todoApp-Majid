@@ -4,12 +4,8 @@ import { useForm } from 'react-hook-form';
 import TodoListing from './TodoListing'
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup' //alias
-
-
-
-
-//performing side effects in React
-
+import { CountContext } from '../App';
+import { useContext } from 'react';
 
 const schema = Yup.object({
   title:Yup.string().required('Please provide the title').min(4, 'Please enter at least 3 chars').max(15, 'mx 15 chars are allowed').trim(),
@@ -24,29 +20,23 @@ function TodoForm() {
       description: ''
     }
   });
-
-
+  const {todoCount, setTodoCount} = useContext(CountContext)
   const [todos, setTodos]=useState([]);
-
   const onSubmit = (data)=>{
-
     const newTodo = {
       ...data,
       id:Date.now()
     }
-
     setTodos([...todos, newTodo]);
-
     localStorage.setItem("todos", JSON.stringify(todos));
   }
 
   useEffect(()=>{
     const todosStr = localStorage.getItem('todos');
-    setTodos(JSON.parse(todosStr) || []);
-  }, [])
-
-  
-
+    const t =JSON.parse(todosStr) || [];
+    setTodos(t);
+    setTodoCount(t.length);
+  }, [setTodos, setTodoCount])
   return (
       <>
         <div className="form-wrapper w-50 m-5">

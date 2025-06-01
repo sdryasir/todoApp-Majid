@@ -1,11 +1,12 @@
 import React from 'react'
-import Navbar from '../components/Navbar'
+import { CountContext } from '../App'
+import { useContext } from 'react'
 
 function About() {
+  const {num, setNum} = useContext(CountContext)
   return (
     <div className='container'>
-        <Navbar/>
-        About
+        About - {num}
     </div>
   )
 }

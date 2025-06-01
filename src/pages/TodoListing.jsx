@@ -1,8 +1,12 @@
 import React, {useState} from 'react'
 import { Link } from 'react-router';
 import Modal from '../components/Modal';
+import { CountContext } from '../App';
+import { useContext } from 'react';
 
 function TodoListing({todoList}) {
+
+  const {num, setNum} = useContext(CountContext)
 
   const [shoModal, setShowModal] = useState(false)
   const [localTodo, setLocalTodo] = useState(null)
@@ -31,6 +35,7 @@ function TodoListing({todoList}) {
 
   return (
       <div className="form-wrapper w-50 m-5">
+        <span>{num}</span>
         {
         todoList.length == 0 ? <div className="card card border-primary mb-3 mt-3">
             <div className="card-body">
